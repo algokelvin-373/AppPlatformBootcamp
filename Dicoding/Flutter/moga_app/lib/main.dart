@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moga_app/page_profile.dart';
 
 void main() => runApp(const MyApp());
 
@@ -68,7 +69,12 @@ class _TabLayoutMainState extends State<TabLayoutMain> with TickerProviderStateM
             actions: [
               IconButton(
                 icon: Image.asset('assets/images/profile.png'),
-                onPressed: () => print("test icon action"),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfilePage()
+                  ),
+                ),
               ),
             ],
             backgroundColor: Colors.teal,
