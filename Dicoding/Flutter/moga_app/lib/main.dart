@@ -9,24 +9,34 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'MoGa',
-      home: TabLayoutExample(),
+      home: TabLayoutMain(),
     );
   }
 }
 
-class TabLayoutExample extends StatefulWidget {
-  const TabLayoutExample({Key? key}) : super(key: key);
+class TabLayoutMain extends StatefulWidget {
+  const TabLayoutMain({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _TabLayoutExampleState();
+    return _TabLayoutMainState();
   }
 
 }
 
-class _TabLayoutExampleState extends State<TabLayoutExample> with TickerProviderStateMixin {
+class _TabLayoutMainState extends State<TabLayoutMain> with TickerProviderStateMixin {
 
   late TabController _tabController;
+
+  static const List<Tab> _tabs = [
+    Tab(icon: Icon(Icons.looks_one), child: Text('Movie')),
+    Tab(icon: Icon(Icons.looks_two), child: Text('Game')),
+  ];
+
+  static const List<Widget> _views = [
+    Center(child: Text('Content of Movie')),
+    Center(child: Text('Content of Game')),
+  ];
 
   @override
   void initState() {
@@ -35,23 +45,11 @@ class _TabLayoutExampleState extends State<TabLayoutExample> with TickerProvider
     _tabController.animateTo(2);
   }
 
-  static const List<Tab> _tabs = [
-    const Tab(icon: Icon(Icons.looks_one), child: const Text('Home')),
-    const Tab(icon: Icon(Icons.looks_two), text: 'Favorite'),
-    const Tab(icon: Icon(Icons.looks_3), text: 'Profile'),
-  ];
-
-  static const List<Widget> _views = [
-    const Center(child: const Text('Content of Home')),
-    const Center(child: const Text('Content of Favorite')),
-    const Center(child: const Text('Content of Profile')),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 6,
+        length: _tabs.length,
         child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(
@@ -59,43 +57,24 @@ class _TabLayoutExampleState extends State<TabLayoutExample> with TickerProvider
               unselectedLabelColor: Colors.grey,
               labelStyle: const TextStyle(fontWeight: FontWeight.bold),
               unselectedLabelStyle: const TextStyle(fontStyle: FontStyle.italic),
-              overlayColor: MaterialStateColor.resolveWith((Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed)) {
-                  return Colors.blue;
-                } if (states.contains(MaterialState.focused)) {
-                  return Colors.orange;
-                } else if (states.contains(MaterialState.hovered)) {
-                  return Colors.pinkAccent;
-                }
-
-                return Colors.transparent;
-              }),
-              indicatorWeight: 10,
-              indicatorColor: Colors.red,
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicatorPadding: const EdgeInsets.all(5),
+              indicatorWeight: 5,
+              tabs: _tabs,
               indicator: BoxDecoration(
                 border: Border.all(color: Colors.red),
-                borderRadius: BorderRadius.circular(10),
                 color: Colors.pinkAccent,
               ),
-              isScrollable: true,
-              physics: const BouncingScrollPhysics(),
-              onTap: (int index) {
-                print('Tab $index is tapped');
-              },
-              enableFeedback: true,
-              // Uncomment the line below and remove DefaultTabController if you want to use a custom TabController
-              // controller: _tabController,
-              tabs: _tabs,
             ),
-            title: const Text('Woolha.com Flutter Tutorial'),
+            title: const Text('MoGa'),
+            actions: [
+              IconButton(
+                icon: Image.asset('assets/images/profile.png'),
+                onPressed: () => print("test icon action"),
+              ),
+            ],
             backgroundColor: Colors.teal,
           ),
+          // bottomNavigationBar: _tabs,
           body: const TabBarView(
-            physics: BouncingScrollPhysics(),
-            // Uncomment the line below and remove DefaultTabController if you want to use a custom TabController
-            // controller: _tabController,
             children: _views,
           ),
         ),
