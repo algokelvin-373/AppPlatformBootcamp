@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moga_app/page_profile.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() => runApp(const MyApp());
 
@@ -35,8 +37,8 @@ class _TabLayoutMainState extends State<TabLayoutMain> with TickerProviderStateM
   ];
 
   static const List<Widget> _views = [
-    Center(child: Text('Content of Movie')),
-    Center(child: Text('Content of Game')),
+    DataApiWidget(15),
+    DataApiWidget(15),
   ];
 
   @override
@@ -83,6 +85,64 @@ class _TabLayoutMainState extends State<TabLayoutMain> with TickerProviderStateM
           body: const TabBarView(
             children: _views,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class DataApiWidget extends StatefulWidget {
+  final int id;
+
+  const DataApiWidget(this.id, {Key? key}) : super(key: key);
+
+  @override
+  _DataApiState createState() => _DataApiState();
+}
+
+class _DataApiState extends State<DataApiWidget> {
+  late final int _id = widget.id;
+  String apiUrl = "";
+
+  _DataApiState() {
+    apiUrl = "https://reqres.in/api/users?per_page=$_id";
+  }
+
+  Future<List<dynamic>> _fecthDataUsers() async {
+    print("url $apiUrl");
+    var result = await http.get(apiUrl);
+    return json.decode(result.body)['data'];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(
+      //   title: Text('Belajar GET HTTP'),
+      // ),
+      body: Container(
+        child: FutureBuilder<List<dynamic>>(
+          future: _fecthDataUsers(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  padding: EdgeInsets.all(10),
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        backgroundImage:
+                        NetworkImage(snapshot.data[index]['avatar']),
+                      ),
+                      title: Text(snapshot.data[index]['first_name'] + " " + snapshot.data[index]['last_name']),
+                      subtitle: Text(snapshot.data[index]['email']),
+                    );
+                  });
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
         ),
       ),
     );
