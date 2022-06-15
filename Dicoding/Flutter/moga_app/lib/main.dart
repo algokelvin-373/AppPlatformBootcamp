@@ -101,15 +101,9 @@ class DataApiWidget extends StatefulWidget {
 }
 
 class _DataApiState extends State<DataApiWidget> {
-  late final int _id = widget.id;
-  String apiUrl = "";
 
-  _DataApiState() {
-    apiUrl = "https://reqres.in/api/users?per_page=$_id";
-  }
-
-  Future<List<dynamic>> _fecthDataUsers() async {
-    print("url $apiUrl");
+  String apiUrl = "https://reqres.in/api/users/?per_page=15";
+  Future<List<dynamic>> fetchDataUsers() async {
     var result = await http.get(apiUrl);
     return json.decode(result.body)['data'];
   }
@@ -117,16 +111,13 @@ class _DataApiState extends State<DataApiWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Belajar GET HTTP'),
-      // ),
       body: Container(
         child: FutureBuilder<List<dynamic>>(
-          future: _fecthDataUsers(),
+          future: fetchDataUsers(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
@@ -140,7 +131,7 @@ class _DataApiState extends State<DataApiWidget> {
                     );
                   });
             } else {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
           },
         ),
