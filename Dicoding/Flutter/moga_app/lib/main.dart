@@ -37,7 +37,7 @@ class _TabLayoutMainState extends State<TabLayoutMain> with TickerProviderStateM
   ];
 
   static const List<Widget> _views = [
-    DataApiWidget(15),
+    DataApiWidget(10),
     DataApiWidget(15),
   ];
 
@@ -101,8 +101,14 @@ class DataApiWidget extends StatefulWidget {
 }
 
 class _DataApiState extends State<DataApiWidget> {
+  late int id = widget.id;
+  late String apiUrl;
 
-  String apiUrl = "https://reqres.in/api/users/?per_page=15";
+  @override
+  initState(){
+    apiUrl = "https://reqres.in/api/users/?per_page=$id";
+  }
+
   Future<List<dynamic>> fetchDataUsers() async {
     var result = await http.get(apiUrl);
     return json.decode(result.body)['data'];
