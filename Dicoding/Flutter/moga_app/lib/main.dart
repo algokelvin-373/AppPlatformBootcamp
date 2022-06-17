@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moga_app/page_profile.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:moga_app/ui/movie/movie_tab_page.dart';
+import 'package:moga_app/ui/profile/page_profile.dart';
 
 void main() => runApp(const MyApp());
 
@@ -37,8 +36,8 @@ class _TabLayoutMainState extends State<TabLayoutMain> with TickerProviderStateM
   ];
 
   static const List<Widget> _views = [
-    DataApiWidget("https://api.themoviedb.org/3/movie/now_playing?api_key=19978af3bb16e019522fd5077f3018f2&language=en-US"),
-    DataApiWidget("https://api.themoviedb.org/3/movie/now_playing?api_key=19978af3bb16e019522fd5077f3018f2&language=en-US"),
+    MovieTabWidget("https://api.themoviedb.org/3/movie/now_playing?api_key=19978af3bb16e019522fd5077f3018f2&language=en-US"),
+    MovieTabWidget("https://api.themoviedb.org/3/movie/now_playing?api_key=19978af3bb16e019522fd5077f3018f2&language=en-US"),
   ];
 
   @override
@@ -85,60 +84,6 @@ class _TabLayoutMainState extends State<TabLayoutMain> with TickerProviderStateM
           body: const TabBarView(
             children: _views,
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class DataApiWidget extends StatefulWidget {
-  final String url;
-
-  const DataApiWidget(this.url, {Key? key}) : super(key: key);
-
-  @override
-  _DataApiState createState() => _DataApiState();
-}
-
-class _DataApiState extends State<DataApiWidget> {
-  late String apiUrl;
-
-  @override
-  initState(){
-    apiUrl = widget.url;
-  }
-
-  Future<List<dynamic>> fetchDataUsers() async {
-    var result = await http.get(apiUrl);
-    return json.decode(result.body)['results'];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: FutureBuilder<List<dynamic>>(
-          future: fetchDataUsers(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  padding: const EdgeInsets.all(10),
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundImage:
-                        NetworkImage("https://image.tmdb.org/t/p/w185/" + snapshot.data[index]['poster_path']),
-                      ),
-                      title: Text(snapshot.data[index]['title']),
-                      subtitle: Text(snapshot.data[index]['release_date']),
-                    );
-                  });
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
         ),
       ),
     );
