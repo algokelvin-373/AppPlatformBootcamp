@@ -10,4 +10,11 @@ class _$ApiService extends ApiService {
   @override
   Type get definitionType => ApiService;
 
+  @override
+  Future<Response<ListMovie>> getMoviePopular(String apiKey, String lang) {
+    final $url = '3/movie/popular?api_key=$apiKey&language=$lang';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<ListMovie, ListMovie>($request);
+  }
+
 }

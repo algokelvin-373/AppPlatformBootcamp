@@ -2,9 +2,10 @@ part of 'movie.dart';
 
 ListMovie _$ListMovieFromJson(Map<String, dynamic> json) {
   return ListMovie(
-    data: (json['results'] as List<Movie>)
-        .map((e) => e == null ? null : Movie.fromJson(e))
-        .toList()
+    data: (json['results'] as List)
+        .map((e) =>
+          e == null ? null : Movie.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
