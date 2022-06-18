@@ -5,7 +5,7 @@ import 'package:chopper/chopper.dart';
 
 class ModelConverter implements Converter{
   @override
-  FutureOr<Request> convertRequest(Request request) {
+  Request convertRequest(Request request) {
     final req = applyHeader(
         request,
         contentTypeKey,
@@ -17,7 +17,7 @@ class ModelConverter implements Converter{
   }
 
   @override
-  FutureOr<Response<BodyType>> convertResponse<BodyType, InnerType>(Response<dynamic> response) {
+  Response<BodyType> convertResponse<BodyType, InnerType>(Response response) {
     return decodeJson<BodyType, InnerType>(response);
   }
 
@@ -34,17 +34,23 @@ class ModelConverter implements Converter{
   Response<BodyType> decodeJson<BodyType, InnerType>(Response response){
     var contentType = response.headers[contentTypeKey];
     var body = response.body;
+    print("contentType => $contentType");
+    print("Body => $body}");
 
     if(contentType != null && contentType.contains(jsonHeaders)){
+      print("Masuk If");
       body = utf8.decode(response.bodyBytes);
     }
 
     try{
       var mapData = json.decode(body);
+      print("mapData => $mapData}");
       var newsModel = ListMovie.fromJson(mapData);
+      print("newsModel => $newsModel");
 
       return response.copyWith<BodyType>(body: newsModel as BodyType);
     } catch(e){
+      print("Masuk catch => $e");
       chopperLogger.warning(e);
       return response.copyWith<BodyType>(body: body);
     }

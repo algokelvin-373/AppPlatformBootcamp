@@ -48,10 +48,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder<Response<ListMovie>>(
       future: Provider.of<ApiService>(context).getMoviePopular("19978af3bb16e019522fd5077f3018f2", "en-US"),
       builder: (context, snapshot) {
+        print("Data => ${snapshot.requireData.body.toString()}");
         if (snapshot.connectionState == ConnectionState.done) {
-          print(snapshot.requireData.body);
           if (snapshot.hasError) {
-            // print("Enter to error");
             return Center(
               child: Text(
                 snapshot.error.toString(),
@@ -59,11 +58,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 textScaleFactor: 1.3,
               ),
             );
+          } else {
+            return Center(
+              child: Text(
+                snapshot.requireData.body.toString(),
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.3,
+              ),
+            );
           }
 
-          final popular = snapshot.data?.body;
-          // print(popular.toString());
-          return _buildListMovie(context, popular);
+          // final popular = snapshot.data?.body;
+          // return _buildListMovie(context, popular);
         } else {
           // Show a loading indicator while waiting for the movies
           return Center(

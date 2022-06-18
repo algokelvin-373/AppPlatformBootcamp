@@ -10,19 +10,19 @@ abstract class ApiService extends ChopperService {
 
   static ApiService create() {
     final client = ChopperClient(
-      baseUrl: 'https://api.themoviedb.org',
+      baseUrl: 'https://api.themoviedb.org/3',
+      interceptors: [HttpLoggingInterceptor()],
+      converter: ModelConverter(),
+      errorConverter: JsonConverter(),
       services: [
         _$ApiService(),
       ],
-      interceptors: [HttpLoggingInterceptor()],
-      converter: ModelConverter(),
-      errorConverter: const JsonConverter(),
     );
 
     return _$ApiService(client);
   }
 
-  @Get(path: '3/movie/popular')
+  @Get(path: 'movie/popular')
   Future<Response<ListMovie>> getMoviePopular(
       @Query('api_key') String apiKey,
       @Query('language') String lang);

@@ -10,7 +10,7 @@ class ListMovie {
     this.data
   });
 
-  factory ListMovie.fromJson(dynamic json) => _$ListMovieFromJson(json);
+  factory ListMovie.fromJson(Map<String, dynamic> json) => _$ListMovieFromJson(json);
 
   Map<String, dynamic> toJson() => _$ListMovieToJson(this);
 
@@ -38,7 +38,7 @@ class Movie {
     this.count
   });
 
-  factory Movie.fromJson(dynamic json) => _$MovieFromJson(json);
+  factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
   Map<String, dynamic> toJson() => _$MovieToJson(this);
 
