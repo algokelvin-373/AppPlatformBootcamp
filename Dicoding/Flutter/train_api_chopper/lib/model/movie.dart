@@ -4,10 +4,10 @@ part 'movie.g.dart';
 
 @JsonSerializable()
 class ListMovie {
-  @JsonKey(name: 'results') List<Movie?>? data;
+  @JsonKey(name: 'results') List<Movie> data;
 
   ListMovie({
-    this.data
+    required this.data
   });
 
   factory ListMovie.fromJson(Map<String, dynamic> json) => _$ListMovieFromJson(json);
@@ -18,24 +18,24 @@ class ListMovie {
 
 @JsonSerializable()
 class Movie {
-  @JsonKey(name: 'id') int? id;
-  @JsonKey(name: 'title') String? title;
-  @JsonKey(name: 'overview') String? overview;
-  @JsonKey(name: 'release_date') String? date;
-  @JsonKey(name: 'poster_path') String? poster;
-  @JsonKey(name: 'backdrop_path') String? backdrop;
-  @JsonKey(name: 'vote_average') int? average;
-  @JsonKey(name: 'vote_count') int? count;
+  @JsonKey(name: 'id') int id;
+  @JsonKey(name: 'title') String title;
+  @JsonKey(name: 'overview') String overview;
+  @JsonKey(name: 'release_date') String date;
+  @JsonKey(name: 'poster_path') String poster;
+  @JsonKey(name: 'backdrop_path') String backdrop;
+  @JsonKey(name: 'vote_average') int average;
+  @JsonKey(name: 'vote_count') int count;
 
   Movie({
-    this.id,
-    this.title,
-    this.overview,
-    this.date,
-    this.poster,
-    this.backdrop,
-    this.average,
-    this.count
+    required this.id,
+    required this.title,
+    required this.overview,
+    required this.date,
+    required this.poster,
+    required this.backdrop,
+    required this.average,
+    required this.count
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);

@@ -1,12 +1,13 @@
 part of 'movie.dart';
 
 ListMovie _$ListMovieFromJson(Map<String, dynamic> json) {
-  return ListMovie(
-    data: (json['results'] as List)
-        .map((e) =>
-          e == null ? null : Movie.fromJson(e as Map<String, dynamic>))
-        .toList(),
+  print('json list => $json');
+  var list = ListMovie(
+    data: (json['results'] as List<Movie>)
   );
+  print('json movie => $list');
+  print('type list movie => ${list is ListMovie}');
+  return list;
 }
 
 Map<String, dynamic> _$ListMovieToJson(ListMovie listMovie) => <String, dynamic> {

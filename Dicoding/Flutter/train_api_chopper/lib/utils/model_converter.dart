@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:train_api_chopper/model/movie.dart';
 import 'package:chopper/chopper.dart';
@@ -45,7 +44,9 @@ class ModelConverter implements Converter{
     try{
       var mapData = json.decode(body);
       print("mapData => $mapData}");
+      // var newsModel = ListMovie.fromJson(mapData);
       var newsModel = ListMovie.fromJson(mapData);
+      print('type list movie 2 => ${newsModel as ListMovie}');
       print("newsModel => $newsModel");
 
       return response.copyWith<BodyType>(body: newsModel as BodyType);
