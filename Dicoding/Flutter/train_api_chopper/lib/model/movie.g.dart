@@ -3,7 +3,7 @@ part of 'movie.dart';
 ListMovie _$ListMovieFromJson(Map<String, dynamic> json) {
   print('json list => $json');
   var list = ListMovie(
-    data: (json['results'] as List<Movie>)
+      results: (json['results'] as List<Movie>)
   );
   print('json movie => $list');
   print('type list movie => ${list is ListMovie}');
@@ -11,7 +11,7 @@ ListMovie _$ListMovieFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$ListMovieToJson(ListMovie listMovie) => <String, dynamic> {
-  'results': listMovie.data,
+  'results': listMovie.results,
 };
 
 Movie _$MovieFromJson(Map<String, dynamic> json) {

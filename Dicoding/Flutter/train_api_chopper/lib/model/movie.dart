@@ -4,10 +4,10 @@ part 'movie.g.dart';
 
 @JsonSerializable()
 class ListMovie {
-  @JsonKey(name: 'results') List<Movie> data;
+  @JsonKey(name: 'results') List<Movie> results;
 
   ListMovie({
-    required this.data
+    required this.results
   });
 
   factory ListMovie.fromJson(Map<String, dynamic> json) => _$ListMovieFromJson(json);

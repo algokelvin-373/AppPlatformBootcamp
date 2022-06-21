@@ -23,7 +23,7 @@ abstract class ApiService extends ChopperService {
   }
 
   @Get(path: 'movie/popular')
-  Future<Response<ListMovie>> getMoviePopular(
+  Future<Response<String>> getMoviePopular(
       @Query('api_key') String apiKey,
       @Query('language') String lang);
 

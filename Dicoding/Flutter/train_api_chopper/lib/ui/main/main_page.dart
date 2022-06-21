@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:train_api_chopper/model/movie.dart';
 import 'package:train_api_chopper/service/api_service.dart';
+import 'dart:convert';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -44,11 +45,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  FutureBuilder<Response<ListMovie>> _buildBody(BuildContext context) {
-    return FutureBuilder<Response<ListMovie>>(
+  FutureBuilder<Response<String>> _buildBody(BuildContext context) {
+    return FutureBuilder<Response<String>>(
       future: Provider.of<ApiService>(context).getMoviePopular("19978af3bb16e019522fd5077f3018f2", "en-US"),
       builder: (context, snapshot) {
-        print("Data => ${snapshot.requireData.body.toString()}");
+        print("Data => ${snapshot.requireData.body}");
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
             return Center(
@@ -58,10 +59,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 textScaleFactor: 1.3,
               ),
             );
-          } else {
+          }
+          else {
+            Map<String, dynamic> jsonData = json.decode(snapshot.requireData.body!);
+            List<Movie> list = List<Movie>.from(jsonData['results'].map((x) => Movie.fromJson(x)));
+            print("Json data => ${list[0].title}");
             return Center(
               child: Text(
-                snapshot.requireData.body.toString(),
+                list[0].title,
                 textAlign: TextAlign.center,
                 textScaleFactor: 1.3,
               ),
@@ -84,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const String IMAGE_URL = "https://image.tmdb.org/t/p/w185/";
 
     return ListView.builder(
-        itemCount: listMovie?.data?.length,
+        itemCount: listMovie?.results.length,
         padding: EdgeInsets.all(8),
         itemBuilder: (context, index) {
           return Card(
@@ -100,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: NetworkImage(
-                                  IMAGE_URL + (listMovie?.data?[index]?.poster ?? 'empty')),
+                                  IMAGE_URL + (listMovie?.results[index].poster ?? 'empty')),
                               fit: BoxFit.contain)),
                     ),
                     Expanded(
@@ -109,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                listMovie?.data?[index]?.title ?? 'empty',
+                                listMovie?.results[index].title ?? 'empty',
                                 style: TextStyle(fontSize: 14),
                               ),
                               const SizedBox(
@@ -118,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Expanded(
                                   child: Container(
                                       child: Text(
-                                        listMovie?.data?[index]?.overview ?? 'empty',
+                                        listMovie?.results[index].overview ?? 'empty',
                                         style: TextStyle(fontSize: 12),
                                       )
                                   )
