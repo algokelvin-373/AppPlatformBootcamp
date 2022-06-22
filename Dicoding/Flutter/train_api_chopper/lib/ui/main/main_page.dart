@@ -48,9 +48,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder<Response<ListMovie>>(
       future: Provider.of<ApiService>(context).getMoviePopular("19978af3bb16e019522fd5077f3018f2", "en-US"),
       builder: (context, snapshot) {
-        print("Data => ${snapshot.requireData.body.toString()}");
+        print("Data => ${snapshot.requireData.body}");
         if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
+          if (snapshot.hasData) {
+            return _buildListMovie(context, snapshot.data?.body);
+          } else if (snapshot.hasError) {
             return Center(
               child: Text(
                 snapshot.error.toString(),
@@ -60,16 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           } else {
             return Center(
-              child: Text(
-                snapshot.requireData.body.toString(),
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.3,
-              ),
+              child: CircularProgressIndicator(),
             );
           }
-
-          // final popular = snapshot.data?.body;
-          // return _buildListMovie(context, popular);
         } else {
           // Show a loading indicator while waiting for the movies
           return Center(
@@ -84,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const String IMAGE_URL = "https://image.tmdb.org/t/p/w185/";
 
     return ListView.builder(
-        itemCount: listMovie?.data?.length,
+        itemCount: listMovie?.results.length,
         padding: EdgeInsets.all(8),
         itemBuilder: (context, index) {
           return Card(
@@ -100,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               image: NetworkImage(
-                                  IMAGE_URL + (listMovie?.data?[index]?.poster ?? 'empty')),
+                                  IMAGE_URL + (listMovie?.results[index].poster ?? 'empty')),
                               fit: BoxFit.contain)),
                     ),
                     Expanded(
@@ -109,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                listMovie?.data?[index]?.title ?? 'empty',
+                                listMovie?.results[index].title ?? 'empty',
                                 style: TextStyle(fontSize: 14),
                               ),
                               const SizedBox(
@@ -118,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               Expanded(
                                   child: Container(
                                       child: Text(
-                                        listMovie?.data?[index]?.overview ?? 'empty',
+                                        listMovie?.results[index].overview ?? 'empty',
                                         style: TextStyle(fontSize: 12),
                                       )
                                   )

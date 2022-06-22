@@ -4,10 +4,10 @@ part 'movie.g.dart';
 
 @JsonSerializable()
 class ListMovie {
-  @JsonKey(name: 'results') List<Movie> data;
+  @JsonKey(name: 'results') List<Movie> results;
 
   ListMovie({
-    required this.data
+    required this.results
   });
 
   factory ListMovie.fromJson(Map<String, dynamic> json) => _$ListMovieFromJson(json);
@@ -24,8 +24,8 @@ class Movie {
   @JsonKey(name: 'release_date') String date;
   @JsonKey(name: 'poster_path') String poster;
   @JsonKey(name: 'backdrop_path') String backdrop;
-  @JsonKey(name: 'vote_average') int average;
-  @JsonKey(name: 'vote_count') int count;
+  @JsonKey(name: 'vote_average') double average;
+  @JsonKey(name: 'vote_count') double count;
 
   Movie({
     required this.id,

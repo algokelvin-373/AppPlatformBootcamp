@@ -33,21 +33,21 @@ class ModelConverter implements Converter{
   Response<BodyType> decodeJson<BodyType, InnerType>(Response response){
     var contentType = response.headers[contentTypeKey];
     var body = response.body;
-    print("contentType => $contentType");
-    print("Body => $body}");
+    // print("contentType => $contentType");
+    // print("Body => $body}");
 
     if(contentType != null && contentType.contains(jsonHeaders)){
-      print("Masuk If");
+      // print("Masuk If");
       body = utf8.decode(response.bodyBytes);
     }
 
     try{
       var mapData = json.decode(body);
-      print("mapData => $mapData}");
+      // print("mapData => $mapData}");
       // var newsModel = ListMovie.fromJson(mapData);
       var newsModel = ListMovie.fromJson(mapData);
-      print('type list movie 2 => ${newsModel as ListMovie}');
-      print("newsModel => $newsModel");
+      // print('type list movie 2 => ${newsModel as ListMovie}');
+      // print("newsModel => $newsModel");
 
       return response.copyWith<BodyType>(body: newsModel as BodyType);
     } catch(e){
