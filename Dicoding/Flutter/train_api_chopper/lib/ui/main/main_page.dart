@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:train_api_chopper/model/movie.dart';
 import 'package:train_api_chopper/service/api_service.dart';
-import 'dart:convert';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -45,8 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  FutureBuilder<Response<String>> _buildBody(BuildContext context) {
-    return FutureBuilder<Response<String>>(
+  FutureBuilder<Response<ListMovie>> _buildBody(BuildContext context) {
+    return FutureBuilder<Response<ListMovie>>(
       future: Provider.of<ApiService>(context).getMoviePopular("19978af3bb16e019522fd5077f3018f2", "en-US"),
       builder: (context, snapshot) {
         print("Data => ${snapshot.requireData.body}");
@@ -61,12 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           }
           else {
-            Map<String, dynamic> jsonData = json.decode(snapshot.requireData.body!);
-            List<Movie> list = List<Movie>.from(jsonData['results'].map((x) => Movie.fromJson(x)));
-            print("Json data => ${list[0].title}");
+            // Map<String, dynamic> jsonData = json.decode(snapshot.requireData.body!);
+            // List<Movie> list = List<Movie>.from(jsonData['results'].map((x) => Movie.fromJson(x)));
+            // print("Json data => ${list[0].title}");
             return Center(
               child: Text(
-                list[0].title,
+                "Success",
                 textAlign: TextAlign.center,
                 textScaleFactor: 1.3,
               ),

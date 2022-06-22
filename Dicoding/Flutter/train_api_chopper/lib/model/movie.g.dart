@@ -1,39 +1,43 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'movie.dart';
 
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
 ListMovie _$ListMovieFromJson(Map<String, dynamic> json) {
-  print('json list => $json');
-  var list = ListMovie(
-      results: (json['results'] as List<Movie>)
+  return ListMovie(
+    results: (json['results'] as List<dynamic>)
+        .map((e) => Movie.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
-  print('json movie => $list');
-  print('type list movie => ${list is ListMovie}');
-  return list;
 }
 
-Map<String, dynamic> _$ListMovieToJson(ListMovie listMovie) => <String, dynamic> {
-  'results': listMovie.results,
-};
+Map<String, dynamic> _$ListMovieToJson(ListMovie instance) => <String, dynamic>{
+      'results': instance.results,
+    };
 
 Movie _$MovieFromJson(Map<String, dynamic> json) {
   return Movie(
     id: json['id'] as int,
     title: json['title'] as String,
     overview: json['overview'] as String,
-    date: json['date'] as String,
+    date: json['release_date'] as String,
     poster: json['poster_path'] as String,
     backdrop: json['backdrop_path'] as String,
-    average: json['vote_average'] as int,
-    count: json['vote_count'] as int,
+    average: (json['vote_average'] as num).toDouble(),
+    count: (json['vote_count'] as num).toDouble(),
   );
 }
 
-Map<String, dynamic> _$MovieToJson(Movie movie) => <String, dynamic> {
-  'id': movie.id,
-  'title': movie.title,
-  'overview': movie.overview,
-  'date': movie.date,
-  'poster_path': movie.poster,
-  'backdrop_path': movie.backdrop,
-  'vote_average': movie.average,
-  'vote_count': movie.count,
-};
+Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'overview': instance.overview,
+      'release_date': instance.date,
+      'poster_path': instance.poster,
+      'backdrop_path': instance.backdrop,
+      'vote_average': instance.average,
+      'vote_count': instance.count,
+    };

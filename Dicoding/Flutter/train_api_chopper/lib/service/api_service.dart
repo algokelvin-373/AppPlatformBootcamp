@@ -3,7 +3,7 @@ import 'package:train_api_chopper/model/movie.dart';
 
 import '../utils/model_converter.dart';
 
-part 'api_service_chopper.dart';
+part 'api_service.chopper.dart';
 
 @ChopperApi()
 abstract class ApiService extends ChopperService {
@@ -23,7 +23,7 @@ abstract class ApiService extends ChopperService {
   }
 
   @Get(path: 'movie/popular')
-  Future<Response<String>> getMoviePopular(
+  Future<Response<ListMovie>> getMoviePopular(
       @Query('api_key') String apiKey,
       @Query('language') String lang);
 
