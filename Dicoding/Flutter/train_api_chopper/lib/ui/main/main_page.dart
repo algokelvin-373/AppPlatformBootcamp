@@ -50,7 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (context, snapshot) {
         print("Data => ${snapshot.requireData.body}");
         if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
+          if (snapshot.hasData) {
+            return _buildListMovie(context, snapshot.data?.body);
+          } else if (snapshot.hasError) {
             return Center(
               child: Text(
                 snapshot.error.toString(),
@@ -58,22 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 textScaleFactor: 1.3,
               ),
             );
-          }
-          else {
-            // Map<String, dynamic> jsonData = json.decode(snapshot.requireData.body!);
-            // List<Movie> list = List<Movie>.from(jsonData['results'].map((x) => Movie.fromJson(x)));
-            // print("Json data => ${list[0].title}");
+          } else {
             return Center(
-              child: Text(
-                "Success",
-                textAlign: TextAlign.center,
-                textScaleFactor: 1.3,
-              ),
+              child: CircularProgressIndicator(),
             );
           }
-
-          // final popular = snapshot.data?.body;
-          // return _buildListMovie(context, popular);
         } else {
           // Show a loading indicator while waiting for the movies
           return Center(
